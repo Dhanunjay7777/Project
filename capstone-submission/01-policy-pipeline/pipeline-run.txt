@@ -1,0 +1,35 @@
+$ policy-extractor pipeline data/policies/ --routing-out routing_decisions.json --seed 42
+{
+  "decisions_written": 9,
+  "auto_approve": 4,
+  "human_review": 1,
+  "spot_check": 4,
+  "escalations": 1,
+  "pattern_summary": {
+    "endorsements_absent": {
+      "count": 1,
+      "policies": [
+        "POL-2025-009"
+      ],
+      "categories": [
+        "missing_source"
+      ]
+    }
+  },
+  "output_path": "routing_decisions.json"
+}
+
+================================================================================
+Offline Fallback Acceptance Test Verification (tests/test_us04_routing.py -v):
+================================================================================
+tests/test_us04_routing.py::test_ac_04_02_all_clear_routes_to_auto_approve PASSED [ 11%]
+tests/test_us04_routing.py::test_ac_04_02_low_confidence_routes_to_human_review PASSED [ 22%]
+tests/test_us04_routing.py::test_ac_04_02_integration_failure_routes_to_human_review PASSED [ 33%]
+tests/test_us04_routing.py::test_ac_04_06_high_confidence_plus_reviewer_disagreement_still_routes_to_human_review PASSED [ 44%]
+tests/test_us04_routing.py::test_ac_04_03_stratified_sampler_picks_from_every_stratum_with_eligible_records PASSED [ 55%]
+tests/test_us04_routing.py::test_ac_04_03_only_auto_approve_decisions_are_eligible_for_spot_check PASSED [ 66%]
+tests/test_us04_routing.py::test_ac_04_04_calibration_report_is_sliced_by_policy_type_and_field PASSED [ 77%]
+tests/test_us04_routing.py::test_ac_04_04_calibration_report_handles_empty_input PASSED [ 88%]
+tests/test_us04_routing.py::test_ac_04_05_routing_decisions_written_to_json_file PASSED [100%]
+
+============================== 9 passed in 0.05s ==============================

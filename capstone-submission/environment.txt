@@ -1,0 +1,38 @@
+================================================================================
+Environment Specification - Evaluation and Observability Capstone
+================================================================================
+
+Operating System:
+  OS: Microsoft Windows 11 Home / Windows 10.0.26100 (win32, x86_64)
+  Shell: PowerShell 5.1 / cmd.exe
+
+Python Version:
+  Python 3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]
+
+Virtual Environment Setup:
+  Each reference system was configured in its own isolated Python virtual environment 
+  under the final exercise's solution directory:
+
+  1. Policy Pipeline (System 1):
+     Path: D:\Project\Build a Validated, Routed Insurance Policy Extraction Pipeline\04-hitl-routing\solution\.venv
+     Creation: python -m venv .venv
+     Installation: .venv\Scripts\pip install -e ".[dev]"
+     Key packages: policy-extractor 0.2.0, anthropic 1.11.0, pytest 9.1.1, pytest-asyncio 1.4.0, mypy 2.4.0, ruff 0.16.10
+
+  2. Mortgage Extractor (System 2):
+     Path: D:\Project\Build a Resilient Mortgage Document Extraction System\04-validate-mathematical-consistency\solution\.venv
+     Creation: python -m venv .venv
+     Installation: .venv\Scripts\pip install -e ".[dev]"
+     Key packages: mortgage-document-extraction-system 0.2.0, pydantic 2.13.5, anthropic 1.11.0, pytest 9.1.1, mypy 2.4.0, ruff 0.16.10
+
+  3. Supply Chain Risk Investigator (System 3):
+     Path: D:\Project\Investigate Supply Chain Risk with Multi-Source Synthesis\03-resilient-coordinator\solution\.venv
+     Creation: python -m venv .venv
+     Installation: .venv\Scripts\pip install -e ".[dev]"
+     Key packages: supply-chain-risk-investigation 0.2.0, chromadb 1.5.9, sentence-transformers 6.1.0, torch 2.14.1, pytest 9.1.1, mypy 2.4.0, ruff 0.16.10
+     Embedding Model: sentence-transformers/all-MiniLM-L6-v2 (cached locally in C:\Users\DHANUJAY\.cache\huggingface\hub\)
+
+Run Mode:
+  - System 1: Test suite replayed recorded responses (45 passing); calibration report run pure Python; offline routing executed deterministically over bundled policies.
+  - System 2: Replay mode (--mode replay) using recorded Anthropic fixtures.
+  - System 3: Offline mode (--offline) with local ChromaDB vector store and local sentence-transformers embeddings; timeout simulated via --simulate-timeout.
