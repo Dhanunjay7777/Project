@@ -1,67 +1,107 @@
-# Claude AI Engineer — Evaluation and Observability
+# Claude AI Engineer: Evaluation and Observability — Capstone Project
 
-Source-of-truth repository for the project modules in the **Claude AI Engineer: Evaluation and Observability** course (`cd15552`). The course is about building Claude-powered extraction and investigation pipelines you can *trust* — schemas that distinguish "the document said so" from "the document was silent," retry loops that tell recoverable failures from futile ones, independent review passes, deterministic human-in-the-loop routing, and resilient multi-source synthesis.
+**Course:** Claude AI Engineer (`cd15552`)  
+**Project:** Evaluation and Observability Capstone Evidence Pack  
 
-Each top-level folder is a self-contained project module built across a sequence of cumulative, test-driven exercises. Every exercise ships a `starter/` you fill in (marked with `# TODO:`) and a `solution/` reference, with acceptance criteria pinned down by a pytest suite. Each exercise's `starter/` is the previous exercise's `solution/`, so nothing resets — by the final exercise you have the complete working system.
+---
 
-## Projects
+## Overview
 
-### [Build a Resilient Mortgage Document Extraction System](Build%20a%20Resilient%20Mortgage%20Document%20Extraction%20System/)
+This repository contains the completed **Evaluation and Observability Capstone Project** evidence pack and full Python implementation packages for all three mission-critical systems:
 
-You are the senior AI engineer at Meridian Home Lending. Build a mortgage-document extractor whose JSON Schema encodes what underwriting can trust: nullable unions, enum-plus-`other` spillover, and per-document-type `required` lists. Then orchestrate a two-pass classify-then-extract flow with forced `tool_choice`, write the extractor system prompt, and validate mathematical consistency across the extracted fields.
+1. **System 1: Validated, Routed Insurance Policy Extraction Pipeline (`01-policy-pipeline/`)**
+   - Resilient retry loop distinguishing recoverable schema/format failures from unrecoverable `missing_source` escalation.
+   - SLA-driven batch submission frequency calculation.
+   - Independent within-policy integration reviewer pass.
+   - Deterministic Human-in-the-Loop (HITL) routing with calibration slicing and stratified sampling.
+   - Includes production on-call runbook (`ON_CALL_RUNBOOK.md`) and extended calibration slice analysis (`extended_calibration_slice.py`).
 
-- `01-design-resilient-extraction-schema/` — Design the resilient extraction JSON Schema and tools (`pytest tests/test_us01_schema.py`).
-- `02-orchestrate-two-pass-tool-choice/` — Classify-then-extract pipeline with forced `tool_choice` (`pytest tests/test_us02_pipeline.py`).
-- `03-write-extractor-system-prompt/` — Author the extractor system prompt (`pytest tests/test_us03_prompts.py`).
-- `04-validate-mathematical-consistency/` — Cross-field mathematical consistency validation (`pytest tests/test_us04_validator.py`).
+2. **System 2: Schema-Enforced Two-Pass Mortgage Extraction System (`02-mortgage-extraction/`)**
+   - Two-pass classify-then-extract pipeline with forced Anthropic `tool_choice`.
+   - Strict JSON Schema with nullable unions and enum-plus-`other` spillover.
+   - Deterministic cross-field mathematical consistency validation.
 
-### [Build a Validated, Routed Insurance Policy Extraction Pipeline](Build%20a%20Validated,%20Routed%20Insurance%20Policy%20Extraction%20Pipeline/)
+3. **System 3: Resilient Multi-Source Supply Chain Risk Investigator (`03-supply-chain/`)**
+   - Canonical `Claim` model across four diverse source readers (audit, logistics, news, quality database).
+   - Provenance-preserving conflict annotation (never silently arbitrates contradictory evidence).
+   - Resilient coordinator with timeout fallback paths for dark/unreachable data sources.
 
-Ingest insurance policy renewal documents, validate them, and route each to auto-approve or human review. Build a retry loop that distinguishes recoverable (`format` / `consistency`) failures from irrecoverable (`missing_source`) ones, add SLA-driven batch submission, an independent reviewer with a within-policy integration pass, and deterministic HITL routing with stratified sampling and calibration.
+---
 
-- `01-retry-with-error-feedback/` — Retry with error feedback and futile-retry escalation (`pytest tests/test_us01_retry.py`).
-- `02-batch-and-sla/` — Batch processing with SLA-driven submission frequency (`pytest tests/test_us02_batch.py`).
-- `03-independent-review/` — Independent reviewer and within-policy integration pass (`pytest tests/test_us03_review.py`).
-- `04-hitl-routing/` — Deterministic HITL routing with stratified sampling and calibration (`pytest tests/`).
+## Repository Structure
 
-### [Investigate Supply Chain Risk with Multi-Source Synthesis](Investigate%20Supply%20Chain%20Risk%20with%20Multi-Source%20Synthesis/)
-
-Build a supply-chain risk investigator over the Meridian source corpus: one `Claim` shape for every source, four source readers, a shared vector store, and a synthesis briefing that stays honest about what the sources do and don't support. Then make the coordinator resilient to a source going dark mid-run via a timeout path.
-
-- `01-claim-readers/` — The `Claim` model and the four source readers (`pytest tests/test_readers.py`).
-- `02-memory-briefing/` — Shared vector store and synthesis briefing (`pytest tests/test_memory.py tests/test_synthesis.py`).
-- `03-resilient-coordinator/` — Timeout path and resilient coordinator (`pytest tests/`).
-
-## Folder layout
-
-Every exercise pairs starter code with a solution, and each side carries its own `README.md`:
-
-```bash
-<project>/
-└── <NN-exercise-name>/        # numbered, cumulative exercise step
-    ├── starter/               # self-contained Python package with TODO blocks to fill in
-    │   ├── README.md          # exercise instructions, requirements, verify command
-    │   ├── pyproject.toml
-    │   ├── <package>/         # the source you complete
-    │   ├── fixtures/ or data/ # offline document corpus + recorded API responses
-    │   └── tests/             # acceptance tests for this exercise
-    └── solution/              # byte-identical to the next exercise's starter, fully implemented
+```
+├── README.md                      # Project documentation and reproduction guide
+├── reflection-brief.md            # Completed capstone reflection brief with quantitative citations
+├── perturbation-log.md            # Completed perturbation experiments across all 3 systems
+├── environment.txt                # System runtime specification (Python 3.12, Windows 11)
+│
+├── 01-policy-pipeline/
+│   ├── policy_extractor/          # Python source code package
+│   ├── tests/                     # Pytest test suite (45 passing tests)
+│   ├── pyproject.toml             # Package configuration & dependencies
+│   ├── tests.txt                  # Full pytest output
+│   ├── static-checks.txt          # mypy & ruff verification output
+│   ├── pipeline-run.txt           # CLI execution output (policy-extractor pipeline)
+│   ├── routing_decisions.json     # Generated routing decisions artifact
+│   ├── calibration-report.txt     # Sliced calibration & Brier score report
+│   ├── extended-calibration-report.txt # High-granularity slice report
+│   ├── extended_calibration_slice.py  # Calibration slicing script
+│   ├── ON_CALL_RUNBOOK.md         # Production on-call operations runbook
+│   └── screenshots/               # Visual proof of successful pipeline execution
+│
+├── 02-mortgage-extraction/
+│   ├── mortgage_extractor/        # Python source code package
+│   ├── tests/                     # Pytest test suite (25 passing tests)
+│   ├── pyproject.toml             # Package configuration & dependencies
+│   ├── tests.txt                  # Full pytest output
+│   ├── static-checks.txt          # mypy & ruff verification output
+│   ├── extract-run.txt            # Successful document extraction capture
+│   ├── discrepancy-run.txt        # Mathematical consistency validator discrepancy capture
+│   └── screenshots/               # Visual proof of extraction execution
+│
+└── 03-supply-chain/
+    ├── supply_chain_risk/         # Python source code package
+    ├── tests/                     # Pytest test suite (23 passing tests)
+    ├── pyproject.toml             # Package configuration & dependencies
+    ├── tests.txt                  # Full pytest output
+    ├── static-checks.txt          # mypy & ruff verification output
+    ├── investigation-run.txt      # Multi-source synthesis briefing output
+    ├── briefing.md                # Generated multi-source briefing artifact
+    ├── timeout-run.txt            # Graceful degradation with simulated source timeout
+    └── screenshots/               # Visual proof of investigation run
 ```
 
-## Running an exercise
+---
 
-Each exercise's `README.md` is authoritative, but every project follows the same shape. From a `starter/` (or `solution/`) directory, create a virtual environment, install in editable mode with dev extras, then run the scoped verify command from that exercise's README:
+## Verifying and Running Tests
 
+Each system can be verified using `pytest` within its respective directory.
+
+### 1. Insurance Policy Pipeline
 ```bash
-cd "<project>/<exercise>/starter"
-python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
-.venv/bin/pytest -v   # or the scoped test path named in the exercise README
+cd 01-policy-pipeline
+pytest -v tests/
 ```
 
-The starter suite fails until the `# TODO:` blocks are resolved; the exercise is complete when its verify command passes cleanly.
+### 2. Mortgage Extraction
+```bash
+cd 02-mortgage-extraction
+pytest -v tests/
+```
 
-**Offline by default.** The document corpora (`fixtures/` / `data/`) and recorded Anthropic responses ship with every stage, so tests and the CLIs run offline with no API key. Tests marked `@pytest.mark.live` need a real `ANTHROPIC_API_KEY` and are intentionally outside the verify gate. The Supply Chain project downloads a local embedding model (~90 MB) on first run, then caches it.
+### 3. Supply Chain Investigation
+```bash
+cd 03-supply-chain
+pytest -v tests/
+```
 
-## License
+---
 
-See [LICENSE.md](LICENSE.md). Educational content © Udacity, Inc., licensed CC BY-NC-ND 4.0 except where noted.
+## Key Artifacts & Citations
+
+All values and metrics quoted in [`reflection-brief.md`](reflection-brief.md) are directly verifiable in the respective output captures:
+- **System 1 Test Count:** 45 passed, 3 skipped (`01-policy-pipeline/tests.txt`)
+- **System 1 Routing Output:** 4 auto-approve, 1 human-review, 4 spot-check, 1 escalation (`01-policy-pipeline/routing_decisions.json`)
+- **System 2 Test Count:** 25 passed (`02-mortgage-extraction/tests.txt`)
+- **System 3 Test Count:** 23 passed (`03-supply-chain/tests.txt`)
